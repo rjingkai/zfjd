@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.khjy.zfjd.mapper.JzspMapper">
+
+
+    <select id="getSp" parameterType="java.lang.String" resultType="com.khjy.zfjd.model.FzyspGlfkb">
+        select ID,
+        AJBH,
+        JQBH,
+        RYBH,
+        SPBH,
+        SPID,
+        CJR,
+        SPKSSJ,
+        SPJSSJ,
+        SPCXSJ,
+        SPPSDD,
+        SPSSDW,
+        (case spbs when '11' then '执法视频' when '12' then '入区视频' when '13' then '笔录视频' when '14' then '押解录像' when '15' then '搜查或检查录像' when '16' then '辨认录像' when '17' then '讯问录像' when '20' then '其他录像' end) as SPBS,
+        (case ryspfl when '01' then '嫌疑人' when '02' then '受害人' when '03' then '证人' when '04' then '其他'end) as RYSPFL,
+        SCDW,
+        SCSJ,
+        JCJBH,
+        SPSC,
+        JQ_JBSJ,
+        AJ_SLSJ,
+        SJ_JBSJ,
+        RY_LRSJ
+        from fzysp_glfkb where scdw = '石景山分局'
+
+            <if test="kssj != null and kssj != '' and jssj != null and jssj != '' ">
+              and scsj between to_date(#{kssj}||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and to_date(#{jssj}||' 23:59:59','yyyy-MM-dd hh24:mi:ss')
+            </if>
+
+    </select>
+    <select id="getRybh" resultType="java.lang.String">
+        SELECT DISTINCT RYBH FROM FZYSP_GLFKB WHERE SPPSDD = '石景山分局执法办案管理中心'
+    </select>
+
+    <!--<select id="getSpbd" parameterType="java.lang.String" resultType="com.khjy.zfjd.model.PersonsInvoled">-->
+        <!--select-->
+        <!--f.PERSONID,-->
+        <!--f.SUSPECTCODE,-->
+        <!--f.CASECODE,-->
+        <!--f.NAME,-->
+        <!--f.IDCARDNO,-->
+        <!--f.GENDER,-->
+        <!--f.BIRTHDAY,-->
+        <!--f.AGE,-->
+        <!--f.CASEBRIEF,-->
+        <!--f.ENTERTIME,-->
+        <!--g.orgname,-->
+        <!--f.PROCESSTIME,-->
+        <!--f.ISDEL-->
+        <!--from fzysp_glfkb_bd f left join xt.org_info g on f.PROCESS_DEPTID = g.orgid-->
+        <!--<where>-->
+            <!--<if test="badw != null and badw != ''">-->
+                <!--and f.process_deptid = #{badw}-->
+            <!--</if>-->
+            <!--<if test="kssj != null and kssj != '' and jssj != null and jssj != ''">-->
+                <!--AND f.ENTERTIME BETWEEN CONCAT(#{kssj},' 00:00:00') AND CONCAT(#{jssj},' 23:59:59')-->
+            <!--</if>-->
+        <!--</where>-->
+
+    <!--</select>-->
+
+
+
+</mapper>
